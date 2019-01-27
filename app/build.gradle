@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.javaVersion
+        targetCompatibility rootProject.ext.javaVersion
+    }
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "foo.bar.example.forelife"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+
+    implementation (group: 'co.early.fore', name: 'fore-core', version: '1.0.0', ext: 'aar')
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:${rootProject.ext.androidX}"
+    implementation 'com.google.android.material:material:1.0.0'
+
+    implementation "com.google.dagger:dagger:2.19"
+    kapt "com.google.dagger:dagger-compiler:2.19"
+
+    // Unit testing dependencies
+    testImplementation 'junit:junit:4.12'
+    // Set this dependency if you want to use Mockito
+    testImplementation "org.mockito:mockito-core:${rootProject.ext.mockito}"
+    // Set this dependency if you want to use Hamcrest matching
+    testImplementation "org.hamcrest:hamcrest-library:${rootProject.ext.hamcrest}"
+
+    androidTestImplementation "org.mockito:mockito-core:${rootProject.ext.mockito}"
+    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:${rootProject.ext.dexmaker}"
+    androidTestImplementation "androidx.test:runner:${rootProject.ext.androidXTest}"
+    androidTestImplementation "androidx.test:rules:${rootProject.ext.androidXTest}"
+    androidTestImplementation "androidx.annotation:annotation:${rootProject.ext.androidX}"
+    androidTestImplementation "androidx.core:core:${rootProject.ext.androidX}"
+    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.ext.androidXEspresso}", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}

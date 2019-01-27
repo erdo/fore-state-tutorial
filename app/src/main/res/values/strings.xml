@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">fore tut: game of life</string>
+    <string name="play">play</string>
+    <string name="reset">reset</string>
+    <string name="round">Round:%d</string>
+    <string name="bankruptcies_true">Some players are bankrupt</string>
+    <string name="bankruptcies_false">No players are bankrupt</string>
+</resources>
