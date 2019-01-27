@@ -1,16 +1,20 @@
 package foo.bar.example.forelife.ui
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import co.early.fore.lifecycle.LifecycleSyncer
+import co.early.fore.lifecycle.activity.SyncableAppCompatActivity
+import foo.bar.example.forelife.App
 import foo.bar.example.forelife.R
 
 /**
  * Copyright © 2019 early.co. All rights reserved.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : SyncableAppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun getThingsToObserve(): LifecycleSyncer.Observables {
+        return LifecycleSyncer.Observables(App.inst.appComponent.gameModel)
+    }
+
+    override fun getResourceIdForSyncableView(): Int {
+        return R.layout.activity_main
     }
 }

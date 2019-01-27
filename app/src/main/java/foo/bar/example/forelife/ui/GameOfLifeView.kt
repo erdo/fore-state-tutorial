@@ -39,9 +39,6 @@ class GameOfLifeView @JvmOverloads constructor(
     private lateinit var showHasBankruptciesTrigger: SyncTrigger
     private lateinit var showNoBankruptciesTrigger: SyncTrigger
 
-    //single observer reference
-    internal var observer = this::syncView
-
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -81,8 +78,6 @@ class GameOfLifeView @JvmOverloads constructor(
             { !gm.hasBankruptPlayers() })
     }
 
-    //data binding stuff below - syncView() is a similar concept to the render() method in MVI
-
     override fun syncView() {
 
         life_player1cash_img.setImageResource(gm.getPlayerAmount(0).resId)
@@ -99,16 +94,5 @@ class GameOfLifeView @JvmOverloads constructor(
 
         showHasBankruptciesTrigger.checkLazy()
         showNoBankruptciesTrigger.checkLazy()
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        gm.addObserver(observer)
-        syncView() //  <- don't forget this
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        gm.removeObserver(observer)
     }
 }
