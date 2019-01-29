@@ -1,9 +1,9 @@
 # Tutorial: android [fore](https://erdo.github.io/android-fore/) state vs events
 
-git repo for the android fore state vs events [dev.to tutorial](https://dev.to/erdo/tutorial-android-fore-basics-1155)
+git repo for the android fore state vs events [dev.to tutorial](https://dev.to/erdo/tutorial-android-state-v-event-3n31)
 
 
-![tutorial app fore basics](https://j.gifs.com/oQ3ZEz.gif)
+![tutorial app fore state vs events](https://j.gifs.com/oVR0RY.gif)
 
 
 ## License

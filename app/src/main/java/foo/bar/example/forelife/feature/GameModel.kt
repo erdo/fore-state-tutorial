@@ -85,7 +85,7 @@ class GameModel @Inject constructor(
     }
 
     private fun hasCoins(player: GameModel.Player): Boolean {
-        return player.amount.ordinal != 0
+        return player.amount != CashAmount.ZERO
     }
 
     private fun hasMaxCoins(player: GameModel.Player): Boolean {
