@@ -3,7 +3,7 @@
 git repo for the android fore state vs events [dev.to tutorial](https://dev.to/erdo/tutorial-android-state-v-event-3n31)
 
 
-![tutorial app fore state vs events](https://j.gifs.com/oVR0RY.gif)
+![tutorial app fore state vs events](https://thepracticaldev.s3.amazonaws.com/i/fujmzsqfvfu6y3de7af9.gif)
 
 
 ## License
