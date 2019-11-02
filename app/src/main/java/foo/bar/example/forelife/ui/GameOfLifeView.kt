@@ -29,7 +29,9 @@ import kotlinx.android.synthetic.main.activity_main.view.life_round_txt
 class GameOfLifeView @JvmOverloads constructor(
         context: Context?,
         attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0 ) : RelativeLayout(context, attrs, defStyleAttr), SyncableView {
+        defStyleAttr: Int = 0
+) : RelativeLayout(context, attrs, defStyleAttr),
+    SyncableView {
 
     //models that we need
     private lateinit var gm: GameModel
@@ -38,6 +40,9 @@ class GameOfLifeView @JvmOverloads constructor(
     //triggers
     private lateinit var showHasBankruptciesTrigger: SyncTrigger
     private lateinit var showNoBankruptciesTrigger: SyncTrigger
+
+    //single observer reference
+    private var observer = this::syncView
 
 
     override fun onFinishInflate() {
@@ -76,6 +81,19 @@ class GameOfLifeView @JvmOverloads constructor(
             { Snackbar.make(this, context.getString(R.string.bankruptcies_false), LENGTH_SHORT).show() },
             //when this
             { !gm.hasBankruptPlayers() })
+    }
+
+    //data binding stuff
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        gm.addObserver(observer)
+        syncView() //  <- don't forget this
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        gm.removeObserver(observer)
     }
 
     override fun syncView() {
