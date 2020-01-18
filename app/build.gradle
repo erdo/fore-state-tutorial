@@ -31,9 +31,9 @@ android {
 
 dependencies {
 
-    implementation (group: 'co.early.fore', name: 'fore-core', version: '1.0.3', ext: 'aar')
-    implementation (group: 'co.early.fore', name: 'fore-lifecycle', version: '1.0.3', ext: 'aar')
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "co.early.fore:fore-core:1.1.0"
+    implementation "co.early.fore:fore-lifecycle:1.1.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:${rootProject.ext.androidX}"
     implementation 'com.google.android.material:material:1.0.0'
 

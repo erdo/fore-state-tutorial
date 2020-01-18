@@ -1,37 +1,30 @@
 package foo.bar.example.forelife.ui
 
-import android.content.Context
-import android.util.AttributeSet
-import android.widget.RelativeLayout
+import android.os.Bundle
 import co.early.fore.core.logging.Logger
 import co.early.fore.core.ui.SyncTrigger
-import co.early.fore.core.ui.SyncableView
+import co.early.fore.lifecycle.LifecycleSyncer
+import co.early.fore.lifecycle.activity.SyncActivityX
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import foo.bar.example.forelife.App
 import foo.bar.example.forelife.R
 import foo.bar.example.forelife.feature.GameModel
-import kotlinx.android.synthetic.main.activity_main.view.life_next_btn
-import kotlinx.android.synthetic.main.activity_main.view.life_player1cash_img
-import kotlinx.android.synthetic.main.activity_main.view.life_player1icon_img
-import kotlinx.android.synthetic.main.activity_main.view.life_player2cash_img
-import kotlinx.android.synthetic.main.activity_main.view.life_player2icon_img
-import kotlinx.android.synthetic.main.activity_main.view.life_player3cash_img
-import kotlinx.android.synthetic.main.activity_main.view.life_player3icon_img
-import kotlinx.android.synthetic.main.activity_main.view.life_player4cash_img
-import kotlinx.android.synthetic.main.activity_main.view.life_player4icon_img
-import kotlinx.android.synthetic.main.activity_main.view.life_reset_btn
-import kotlinx.android.synthetic.main.activity_main.view.life_round_txt
+import kotlinx.android.synthetic.main.activity_main.life_next_btn
+import kotlinx.android.synthetic.main.activity_main.life_player1cash_img
+import kotlinx.android.synthetic.main.activity_main.life_player1icon_img
+import kotlinx.android.synthetic.main.activity_main.life_player2cash_img
+import kotlinx.android.synthetic.main.activity_main.life_player2icon_img
+import kotlinx.android.synthetic.main.activity_main.life_player3cash_img
+import kotlinx.android.synthetic.main.activity_main.life_player3icon_img
+import kotlinx.android.synthetic.main.activity_main.life_player4cash_img
+import kotlinx.android.synthetic.main.activity_main.life_player4icon_img
+import kotlinx.android.synthetic.main.activity_main.life_reset_btn
+import kotlinx.android.synthetic.main.activity_main.life_round_txt
 
 /**
  * Copyright © 2019 early.co. All rights reserved.
  */
-class GameOfLifeView @JvmOverloads constructor(
-        context: Context?,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
-) : RelativeLayout(context, attrs, defStyleAttr),
-    SyncableView {
+class GameOfLifeActivity : SyncActivityX() {
 
     //models that we need
     private lateinit var gm: GameModel
@@ -41,12 +34,10 @@ class GameOfLifeView @JvmOverloads constructor(
     private lateinit var showHasBankruptciesTrigger: SyncTrigger
     private lateinit var showNoBankruptciesTrigger: SyncTrigger
 
-    //single observer reference
-    private var observer = this::syncView
 
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         //(get view references handled for us by kotlin tools)
 
@@ -56,7 +47,6 @@ class GameOfLifeView @JvmOverloads constructor(
 
         setupTriggers()
     }
-
 
     private fun getModelReferences() {
         gm = App.inst.appComponent.gameModel
@@ -72,28 +62,32 @@ class GameOfLifeView @JvmOverloads constructor(
 
         showHasBankruptciesTrigger = SyncTrigger(
             //do this
-            { Snackbar.make(this, context.getString(R.string.bankruptcies_true), LENGTH_SHORT).show() },
+            {
+                Snackbar.make(
+                    window.decorView.rootView,
+                    getString(R.string.bankruptcies_true), Snackbar.LENGTH_SHORT
+                ).show()
+            },
             //when this
             { gm.hasBankruptPlayers() })
 
         showNoBankruptciesTrigger = SyncTrigger(
             //do this
-            { Snackbar.make(this, context.getString(R.string.bankruptcies_false), LENGTH_SHORT).show() },
+            {
+                Snackbar.make(
+                    window.decorView.rootView,
+                    getString(R.string.bankruptcies_false), Snackbar.LENGTH_SHORT
+                ).show()
+            },
             //when this
             { !gm.hasBankruptPlayers() })
     }
 
-    //data binding stuff
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        gm.addObserver(observer)
-        syncView() //  <- don't forget this
-    }
+    // reactive UI implementation
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        gm.removeObserver(observer)
+    override fun getThingsToObserve(): LifecycleSyncer.Observables {
+        return LifecycleSyncer.Observables(App.inst.appComponent.gameModel)
     }
 
     override fun syncView() {
@@ -113,4 +107,5 @@ class GameOfLifeView @JvmOverloads constructor(
         showHasBankruptciesTrigger.checkLazy()
         showNoBankruptciesTrigger.checkLazy()
     }
+
 }
