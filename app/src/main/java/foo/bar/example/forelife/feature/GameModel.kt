@@ -1,8 +1,9 @@
 package foo.bar.example.forelife.feature
 
 import co.early.fore.core.WorkMode
-import co.early.fore.core.logging.Logger
-import co.early.fore.core.observer.ObservableImp
+import co.early.fore.core.observer.Observable
+import co.early.fore.kt.core.logging.Logger
+import co.early.fore.kt.core.observer.ObservableImp
 import java.util.Random
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 class GameModel @Inject constructor(
         private val random: Random,
         private val logger: Logger,
-        workMode: WorkMode ) : ObservableImp(workMode) {
+        workMode: WorkMode ) : Observable by ObservableImp(workMode) {
 
     //we need at least 3 players
     private val players = listOf(Player(), Player(), Player(), Player())

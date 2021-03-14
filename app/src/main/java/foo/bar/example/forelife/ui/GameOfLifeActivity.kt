@@ -1,10 +1,11 @@
 package foo.bar.example.forelife.ui
 
 import android.os.Bundle
-import co.early.fore.core.logging.Logger
+import androidx.appcompat.app.AppCompatActivity
+import co.early.fore.core.observer.Observer
 import co.early.fore.core.ui.SyncTrigger
-import co.early.fore.lifecycle.LifecycleSyncer
-import co.early.fore.lifecycle.activity.SyncActivityX
+import co.early.fore.core.ui.SyncableView
+import co.early.fore.kt.core.logging.Logger
 import com.google.android.material.snackbar.Snackbar
 import foo.bar.example.forelife.App
 import foo.bar.example.forelife.R
@@ -24,11 +25,14 @@ import kotlinx.android.synthetic.main.activity_main.life_round_txt
 /**
  * Copyright © 2019 early.co. All rights reserved.
  */
-class GameOfLifeActivity : SyncActivityX() {
+class GameOfLifeActivity : AppCompatActivity(R.layout.activity_main), SyncableView {
 
     //models that we need
     private lateinit var gm: GameModel
     private lateinit var logger: Logger
+
+    //single observer reference
+    var observer = Observer { syncView() }
 
     //triggers
     private lateinit var showHasBankruptciesTrigger: SyncTrigger
@@ -86,10 +90,6 @@ class GameOfLifeActivity : SyncActivityX() {
 
     // reactive UI implementation
 
-    override fun getThingsToObserve(): LifecycleSyncer.Observables {
-        return LifecycleSyncer.Observables(App.inst.appComponent.gameModel)
-    }
-
     override fun syncView() {
 
         life_player1cash_img.setImageResource(gm.getPlayerAmount(0).resId)
@@ -108,4 +108,14 @@ class GameOfLifeActivity : SyncActivityX() {
         showNoBankruptciesTrigger.checkLazy()
     }
 
+    override fun onStart() {
+        super.onStart()
+        gm.addObserver(observer)
+        syncView() //  <- don't forget this
+    }
+
+    override fun onStop() {
+        super.onStop()
+        gm.removeObserver(observer)
+    }
 }

@@ -31,29 +31,11 @@ android {
 
 dependencies {
 
-    implementation "co.early.fore:fore-core:1.1.0"
-    implementation "co.early.fore:fore-lifecycle:1.1.0"
+    implementation "co.early.fore:fore-kt:1.3.7"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:${rootProject.ext.androidX}"
     implementation 'com.google.android.material:material:1.0.0'
 
     implementation "com.google.dagger:dagger:2.19"
     kapt "com.google.dagger:dagger-compiler:2.19"
-
-    // Unit testing dependencies
-    testImplementation 'junit:junit:4.12'
-    // Set this dependency if you want to use Mockito
-    testImplementation "org.mockito:mockito-core:${rootProject.ext.mockito}"
-    // Set this dependency if you want to use Hamcrest matching
-    testImplementation "org.hamcrest:hamcrest-library:${rootProject.ext.hamcrest}"
-
-    androidTestImplementation "org.mockito:mockito-core:${rootProject.ext.mockito}"
-    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:${rootProject.ext.dexmaker}"
-    androidTestImplementation "androidx.test:runner:${rootProject.ext.androidXTest}"
-    androidTestImplementation "androidx.test:rules:${rootProject.ext.androidXTest}"
-    androidTestImplementation "androidx.annotation:annotation:${rootProject.ext.androidX}"
-    androidTestImplementation "androidx.core:core:${rootProject.ext.androidX}"
-    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.ext.androidXEspresso}", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
 }
