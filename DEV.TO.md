@@ -114,7 +114,7 @@ class GameModel constructor(
 - We are calling **notifyObservers()** whenever any of our model’s state changes
 - We assume everything is called on the **UI thread** - and in this case there is no need to do any asynchronous work at all. (If we were saving the state in a [**database**](https://erdo.github.io/android-fore/#fore-6-db-example-room) or connecting to the [**network**](https://erdo.github.io/android-fore/#fore-4-retrofit-example) it would be a different matter of course)
 
-A checklist for writing models when you’re using fore (or indeed something like MVVM) is maintained [here](https://erdo.github.io/android-fore/02-models.html#shoom).
+A checklist for writing models when you’re using fore (or indeed something like MVVM) is maintained [here](https://erdo.github.io/android-fore/02-models.html#model-checklist).
 
 ## View
 
@@ -285,7 +285,7 @@ What we need here is a way to take us from the **state world** (where things are
 
 ## SyncTrigger
 
-We need to specify 2 things to use a SyncTrigger:
+We need to specify 2 main things to use a SyncTrigger:
 
 - what we want to happen when it is triggered (typically show a snackbar or a dialog; start an activity; or run an animation)
 - the threshold required to trip the trigger (network connectivity goes from connected->disconnected; an error state goes from false->true; the amount of money in an account goes below a certain limit; a timer goes beyond a certain duration, etc)
@@ -296,17 +296,13 @@ We are going to add two SyncTriggers to the app:
 
 private fun setupTriggers() {
 
-  showHasBankruptciesTrigger = SyncTrigger(
-    //do this
-    { Snackbar.make(this, context.getString(R.string.bankruptcies_true), LENGTH_SHORT).show() },
-    //when this
-    { gameModel.hasBankruptPlayers() })
+  showHasBankruptciesTrigger = SyncTrigger({ gameModel.hasBankruptPlayers() }){
+    Snackbar.make(this, context.getString(R.string.bankruptcies_true), LENGTH_SHORT).show()
+  }
 
-  showNoBankruptciesTrigger = SyncTrigger(
-    //do this
-    { Snackbar.make(this, context.getString(R.string.bankruptcies_false), LENGTH_SHORT).show() },
-    //when this
-    { !gameModel.hasBankruptPlayers() })
+  showNoBankruptciesTrigger = SyncTrigger({ !gameModel.hasBankruptPlayers() }){
+    Snackbar.make(this, context.getString(R.string.bankruptcies_false), LENGTH_SHORT).show()
+  }
 }
 
 ```

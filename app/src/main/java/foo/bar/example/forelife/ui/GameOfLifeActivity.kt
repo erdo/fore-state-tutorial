@@ -3,9 +3,9 @@ package foo.bar.example.forelife.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import co.early.fore.core.observer.Observer
-import co.early.fore.core.ui.SyncTrigger
 import co.early.fore.core.ui.SyncableView
 import co.early.fore.kt.core.logging.Logger
+import co.early.fore.kt.core.ui.SyncTrigger
 import com.google.android.material.snackbar.Snackbar
 import foo.bar.example.forelife.App
 import foo.bar.example.forelife.R
@@ -64,27 +64,21 @@ class GameOfLifeActivity : AppCompatActivity(R.layout.activity_main), SyncableVi
 
     private fun setupTriggers() {
 
-        showHasBankruptciesTrigger = SyncTrigger(
-            //do this
+        showHasBankruptciesTrigger = SyncTrigger({ gm.hasBankruptPlayers() })
             {
                 Snackbar.make(
                     window.decorView.rootView,
                     getString(R.string.bankruptcies_true), Snackbar.LENGTH_SHORT
                 ).show()
-            },
-            //when this
-            { gm.hasBankruptPlayers() })
+            }
 
-        showNoBankruptciesTrigger = SyncTrigger(
-            //do this
+        showNoBankruptciesTrigger = SyncTrigger({ !gm.hasBankruptPlayers() })
             {
                 Snackbar.make(
                     window.decorView.rootView,
                     getString(R.string.bankruptcies_false), Snackbar.LENGTH_SHORT
                 ).show()
-            },
-            //when this
-            { !gm.hasBankruptPlayers() })
+            }
     }
 
 
