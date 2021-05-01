@@ -1,7 +1,7 @@
 package foo.bar.example.forelife.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import co.early.fore.core.observer.Observer
 import co.early.fore.core.ui.SyncableView
 import co.early.fore.kt.core.logging.Logger
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_main.life_round_txt
 /**
  * Copyright © 2019 early.co. All rights reserved.
  */
-class GameOfLifeActivity : AppCompatActivity(R.layout.activity_main), SyncableView {
+class GameOfLifeActivity : FragmentActivity(R.layout.activity_main), SyncableView {
 
     //models that we need
     private lateinit var gm: GameModel
