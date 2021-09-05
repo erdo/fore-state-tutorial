@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import co.early.fore.core.observer.Observer
 import co.early.fore.core.ui.SyncableView
 import co.early.fore.kt.core.logging.Logger
-import co.early.fore.kt.core.ui.SyncTrigger
+import co.early.fore.kt.core.ui.synctrigger.SyncTrigger
 import com.google.android.material.snackbar.Snackbar
 import foo.bar.example.forelife.App
 import foo.bar.example.forelife.R
