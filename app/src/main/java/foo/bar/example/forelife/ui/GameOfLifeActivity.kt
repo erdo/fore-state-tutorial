@@ -5,8 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import co.early.fore.core.observer.Observer
 import co.early.fore.core.ui.SyncableView
 import co.early.fore.kt.core.logging.Logger
-import co.early.fore.kt.core.ui.synctrigger.SyncTrigger
-import com.google.android.material.snackbar.Snackbar
+import co.early.fore.kt.core.ui.trigger.TriggerWhen
 import foo.bar.example.forelife.App
 import foo.bar.example.forelife.R
 import foo.bar.example.forelife.feature.GameModel
@@ -35,8 +34,8 @@ class GameOfLifeActivity : FragmentActivity(R.layout.activity_main), SyncableVie
     var observer = Observer { syncView() }
 
     //triggers
-    private lateinit var showHasBankruptciesTrigger: SyncTrigger
-    private lateinit var showNoBankruptciesTrigger: SyncTrigger
+    private lateinit var showHasBankruptciesTrigger: TriggerWhen
+    private lateinit var showNoBankruptciesTrigger: TriggerWhen
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,21 +63,13 @@ class GameOfLifeActivity : FragmentActivity(R.layout.activity_main), SyncableVie
 
     private fun setupTriggers() {
 
-        showHasBankruptciesTrigger = SyncTrigger({ gm.hasBankruptPlayers() })
-            {
-                Snackbar.make(
-                    window.decorView.rootView,
-                    getString(R.string.bankruptcies_true), Snackbar.LENGTH_SHORT
-                ).show()
-            }
+        showHasBankruptciesTrigger = TriggerWhen({ gm.hasBankruptPlayers() }) {
+            showSnackbar(getString(R.string.bankruptcies_true))
+        }
 
-        showNoBankruptciesTrigger = SyncTrigger({ !gm.hasBankruptPlayers() })
-            {
-                Snackbar.make(
-                    window.decorView.rootView,
-                    getString(R.string.bankruptcies_false), Snackbar.LENGTH_SHORT
-                ).show()
-            }
+        showNoBankruptciesTrigger = TriggerWhen({ !gm.hasBankruptPlayers() }) {
+            showSnackbar(getString(R.string.bankruptcies_false))
+        }
     }
 
 
